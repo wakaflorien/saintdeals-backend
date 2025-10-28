@@ -1,164 +1,204 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank">
+    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" />
+  </a>
 </p>
 
 <p align="center">
-  A modern Events venue management system built with <a href="http://nodejs.org" target="_blank">NestJS</a> and <a href="https://www.prisma.io/" target="_blank">Prisma</a>.
+  🛍️ <strong>Saint Deals</strong> — A modern and scalable eCommerce platform specialized in selling shoes, 
+  built with <a href="https://nestjs.com/" target="_blank">NestJS</a> and 
+  <a href="https://www.prisma.io/" target="_blank">Prisma ORM</a>.
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-  <a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" />
+  </a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" />
+  </a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" />
+  </a>
 </p>
 
-## Description
+---
 
-"The Knot Events" is a comprehensive wedding venue management platform built with NestJS and Prisma. This application helps venue owners and event planners manage bookings, client information, venue details, and event schedules.
+## 📝 Overview
 
-## Features
+**Saint Deals** is a full-featured backend API for managing an online **shoe store**.  
+It provides a complete solution for handling **products, sizes, brands, discounts, orders, payments, reviews, and customers**, built with **NestJS**, **Prisma**, and **PostgreSQL**.
 
-- User authentication and role-based access control
-- Venue management and booking system
-- Event scheduling and calendar integration
-- Client relationship management
-- Invoicing and payment tracking
-- Customizable event templates
+This system follows a modular architecture that ensures scalability, maintainability, and clean separation of concerns.
 
-## Technology Stack
+---
 
-- **Backend**: NestJS (TypeScript-based Node.js framework)
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **Authentication**: JWT
-- **Deployment**: Docker & Render
+## ⚙️ Key Features
 
-## Project Setup
+### 👤 User Management & Authentication
+- Secure JWT-based authentication
+- Role-based access (`CUSTOMER`, `ADMIN`, `SUPER_ADMIN`)
+- Email verification and password recovery
+- Address book for shipping and billing
 
+### 👟 Product Management
+- Products linked to **categories**, **brands**, and **sizes**
+- Variants with stock, color, and price tracking
+- Multiple images per product (with “isPrimary” flag)
+- Gender targeting (`MEN`, `WOMEN`, `UNISEX`, `KIDS`)
+
+### 🛒 Cart & Wishlist
+- Persistent user cart system
+- Wishlist with quick add/remove support
+- Real-time quantity updates and variant tracking
+
+### 💰 Orders & Payments
+- Complete checkout flow with tax and shipping
+- Payment support (Stripe, PayPal, or COD)
+- Shipment and delivery status tracking
+- Discount and coupon support
+
+### ⭐ Reviews & Ratings
+- Verified purchase reviews
+- 1–5 star ratings and comments
+- Aggregated average ratings per product
+
+### 🎁 Discounts & Promotions
+- Coupons with expiry, type (`PERCENT`, `FIXED`, `FREE_SHIPPING`)
+- Min order value and usage count limits
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| **Framework** | [NestJS](https://nestjs.com) |
+| **ORM** | [Prisma](https://prisma.io) |
+| **Database** | PostgreSQL |
+| **Auth** | JWT |
+| **File Storage** | Cloudinary |
+| **Containerization** | Docker |
+| **Language** | TypeScript |
+
+---
+
+## 🧩 Database Models Overview
+
+| Domain | Models |
+|--------|---------|
+| **User System** | `User`, `Address` |
+| **Products** | `Product`, `Category`, `Brand`, `ProductVariant`, `ProductImage`, `Size` |
+| **Cart** | `Cart`, `CartItem` |
+| **Orders** | `Order`, `OrderItem`, `Shipment`, `Payment` |
+| **Discounts** | `Discount` |
+| **Extras** | `Review`, `Wishlist` |
+
+---
+
+## ⚙️ Project Setup
+
+### 1️⃣ Install Dependencies
 ```bash
-# Install dependencies
-$ npm install
-
-# Generate Prisma client
-$ npm run generate
-
-# Set up the database
-$ npm run migrate
-
-# Seed the database with initial data
-$ npm run seed
+npm install
 ```
+### 2️⃣ Configure Environment Variables
 
-## Environment Configuration
-
-Create a `.env` file in the root directory with the following variables:
-
-```
-# Production Database
-DATABASE_URL="postgresql://${PROD_DATABASE_USERNAME}:${PROD_DATABASE_PASSWORD}@${PROD_DATABASE_HOST}:${PROD_DATABASE_PORT}/${PROD_DATABASE_NAME}?sslmode=require"
-
-# Production Database connection details
-PROD_DATABASE_HOST=your_production_host
-PROD_DATABASE_PORT=your_production_port
-PROD_DATABASE_USERNAME=your_production_username
-PROD_DATABASE_PASSWORD=your_production_password
-PROD_DATABASE_NAME=your_production_dbname
-
-# Local Database connection details
-LOCAL_DATABASE_HOST=localhost
-LOCAL_DATABASE_PORT=5432
-LOCAL_DATABASE_USERNAME=postgres
-LOCAL_DATABASE_PASSWORD=postgres
-LOCAL_DATABASE_NAME=knotesevents
-
-# JWT settings
-JWT_SECRET=your_secure_jwt_secret
+Create a .env file in your root directory:
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/saintdeals"
+JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRATION=1d
 
 # Cloudinary
-CLOUDINARY_CLOUD_NAME="xyz"
-CLOUDINARY_API_KEY="xyz"
-CLOUDINARY_API_SECRET="xy-FoqzdwcbRSo"
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+PORT=3000
+NODE_ENV=development
+
 ```
 
-## Database Management
+### 3️⃣ Setup Prisma
 
 ```bash
 # Generate Prisma client
-$ npm run generate
+pnpm run generate
 
-# Create and apply migrations
-$ pnpm run migrate -- --name name_of_your_migration
+# Run migrations
+pnpm run migrate
 
-# Apply migrations in production
-$ npm run migrate:deploy
+# Open Prisma Studio (optional)
+pnpm run studio
 
-# Push schema changes without migrations
-$ npm run db:push
-
-# Reset database (drop all tables and reapply migrations)
-$ npm run reset
-
-# Open Prisma Studio (database GUI)
-$ npm run studio
 ```
+#### 🧠 Available NPM Scripts
+| Command               | Description                                 |
+| --------------------- | ------------------------------------------- |
+| `pnpm run build`       | Build project (includes NestJS compilation) |
+| `pnpm run format`      | Format code using Prettier                  |
+| `pnpm run start`       | Start the application                       |
+| `pnpm run start:dev`   | Start in development mode (with watch)      |
+| `pnpm run start:debug` | Start with debugging mode                   |
+| `pnpm run start:prod`  | Start production build                      |
+| `pnpm run lint`        | Run ESLint and auto-fix issues              |
+| `pnpm run test`        | Run all tests                               |
+| `pnpm run test:watch`  | Run tests in watch mode                     |
+| `pnpm run test:cov`    | Generate test coverage report               |
+| `pnpm run test:debug`  | Debug Jest tests                            |
+| `pnpm run test:e2e`    | Run end-to-end tests                        |
+| `pnpm run migrate`     | Apply database migrations (dev)             |
+| `pnpm run deploy`      | Apply database migrations (production)      |
+| `pnpm run studio`      | Open Prisma Studio                          |
+| `pnpm run generate`    | Generate Prisma client                      |
+| `pnpm run reset`       | Reset and reapply database migrations       |
 
-## Running the Application
 
+
+### 🚀 Running the Application
+# Development Mode
 ```bash
-# Development mode
-$ npm run start
-
-# Watch mode
-$ npm run start:dev
-
-# Production mode
-$ npm run start:prod
+pnpm run start:dev
 ```
 
-## Testing
-
+# Production Mode
 ```bash
-# Unit tests
-$ npm run test
-
-# E2E tests
-$ npm run test:e2e
-
-# Test coverage
-$ npm run test:cov
+pnpm run build
+pnpm run start:prod
 ```
 
-## Deployment
-
-When you're ready to deploy your application to production:
-
+# 🧪 Testing
 ```bash
-# Build the application
-$ npm run build
+# Run unit tests
+pnpm run test
 
-# Apply migrations in production
-$ npm run migrate:deploy
+# Run e2e tests
+pnpm run test:e2e
+
+# Generate test coverage
+pnpm run test:cov
 ```
 
-## API Documentation
+### 📘 API Documentation
 
-Once the application is running, you can access the Swagger API documentation at:
-```
+After running the app, access Swagger UI at:
+```bash
 http://localhost:3000/api
+
 ```
 
-## Resources
+### 💬 Support
 
-- [NestJS Documentation](https://docs.nestjs.com)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+📧 muhozajohn4@gmail.com
 
-## Support
+👨‍💻 Developed by John Muhoza
 
-For support, please open an issue in the repository or contact the development team.
+### 📄 License
 
-## License
+## This project is MIT licensed
 
-This project is [MIT licensed](LICENSE).
+
+
+
+
