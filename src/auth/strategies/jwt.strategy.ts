@@ -9,13 +9,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || "qwertyuiopoiuytre",
+      secretOrKey: process.env.JWT_SECRET || 'qwertyuiopoiuytre',
     });
   }
 
   async validate(payload: any) {
     const user = await this.usersService.findByEmail(payload.email);
-    
+
     if (!user) {
       throw new UnauthorizedException('User not found');
     }

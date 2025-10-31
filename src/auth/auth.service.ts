@@ -11,7 +11,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private encryptionService: EncryptionService,
-  ) { }
+  ) {}
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
@@ -25,7 +25,9 @@ export class AuthService {
     }
 
     if (!user.emailVerified) {
-      throw new UnauthorizedException('Please verify your email before logging in');
+      throw new UnauthorizedException(
+        'Please verify your email before logging in',
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -42,9 +44,8 @@ export class AuthService {
       id: user.id,
       uuid: user.uuid,
       email: user.email,
-      role: user.role
+      role: user.role,
     };
-    
 
     const accessToken = this.jwtService.sign(payload);
 
@@ -100,7 +101,3 @@ export class AuthService {
     return encryptedUserData;
   }
 }
-
-
-
-

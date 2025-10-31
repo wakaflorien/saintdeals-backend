@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { EncryptionService } from './encryption.service';
+import { CloudinaryService } from './cloudinary.service';
 
 @Module({
-  providers: [EncryptionService],
-  exports: [EncryptionService],
+  providers: [EncryptionService, CloudinaryService],
+  exports: [EncryptionService, CloudinaryService],
 })
 export class CommonModule {}
-
-
 
 // src/common/common.module.ts
 // import { Module } from '@nestjs/common';
