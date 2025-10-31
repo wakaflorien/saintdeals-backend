@@ -10,7 +10,7 @@ export class AppService {
   } {
     return {
       author: 'John Muhoza',
-      message: 'Events Venue Management System API!',
+      message: 'Saintdeals System API!',
       version: '1.0.0',
       timestamp: new Date().toISOString(),
     };
