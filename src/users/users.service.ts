@@ -1,15 +1,24 @@
-import { Injectable, NotFoundException, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { CloudinaryService } from '../common/cloudinary.service';
 // import { EncryptionService } from '../common/encryption.service';
 
 @Injectable()
 export class UsersService {
   private prisma = new PrismaClient();
 
-  // constructor(private encryptionService: EncryptionService) {}
+  constructor(
+    // private encryptionService: EncryptionService
+    private readonly cloudinaryService: CloudinaryService,
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const existingUser = await this.prisma.user.findUnique({
@@ -42,7 +51,12 @@ export class UsersService {
       },
     });
 
-    return user;
+    const formattedRole = user.role
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+
+    return { message: `${formattedRole} Created Well`, data: user };
   }
 
   async findAll() {
@@ -65,7 +79,7 @@ export class UsersService {
       },
     });
 
-    return users;
+    return { message: "All Users Retrived Well", data:users };
   }
 
   async findOne(id: number) {
@@ -144,7 +158,12 @@ export class UsersService {
       },
     });
 
-    return user;
+    const formattedRole = user.role
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+
+    return { message: `${formattedRole} Updated Well`, data: user };
   }
 
   async remove(id: number) {
@@ -215,5 +234,18 @@ export class UsersService {
     });
 
     return updatedUser;
+  }
+
+  async updateAvatar(id: number, file: Express.Multer.File) {
+    await this.findOne(id);
+
+    const avatarUrl = await this.cloudinaryService.uploadImage(file);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: { avatar: avatarUrl },
+    });
+
+    return { message: 'Avatar updated successfully', data: updatedUser };
   }
 }

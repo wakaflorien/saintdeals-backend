@@ -22,7 +22,7 @@ model User {
   firstName       String?
   lastName        String?
   phone           String?
-  avatar           String?
+  avatar          String?
   role            UserRole   @default(CUSTOMER)
   isActive        Boolean    @default(true)
   emailVerified   Boolean    @default(false)

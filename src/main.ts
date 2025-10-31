@@ -59,7 +59,9 @@ async function bootstrap() {
 
   console.log('🚀 Application is running at:', appUrl);
   console.log('📘 Swagger docs are available at:', `${appUrl}/api`);
-  console.log('🔐 Swagger credentials → username: saintsAdmin | password: saintdeals');
+  console.log(
+    '🔐 Swagger credentials → username: saintsAdmin | password: saintdeals',
+  );
 }
 
 bootstrap();
