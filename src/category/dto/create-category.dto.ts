@@ -1,12 +1,13 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateCategoryDto {
   @ApiProperty({ example: 'Electronics' })
   @IsString()
   name: string;
 
-  @ApiProperty({ example: 'electronics', required: true })
+  @ApiProperty({ example: 'electronics' })
   @IsString()
   @IsOptional()
   slug: string;
@@ -16,14 +17,17 @@ export class CreateCategoryDto {
   @IsOptional()
   description?: string;
 
-  @ApiPropertyOptional({
-    type: 'string',
-    format: 'binary',
-    description: 'Category image file',
+  @ApiProperty({
+    description: 'Whether the category is active',
+    example: true,
+    required: false,
   })
-  imageUrl?: any;
-
-  @ApiProperty({ default: true, required: false })
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return Boolean(value);
+  })
+  @IsBoolean()
   @IsOptional()
   isActive?: boolean;
 }

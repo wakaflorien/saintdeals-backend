@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateCategoryDto {
   @ApiPropertyOptional({ example: 'Electronics' })
@@ -18,13 +19,14 @@ export class UpdateCategoryDto {
   description?: string;
 
   @ApiPropertyOptional({
-    type: 'string',
-    format: 'binary',
-    description: 'Category image file',
+    description: 'Whether the category is active',
+    example: true,
   })
-  imageUrl?: any;
-
-  @ApiPropertyOptional({ default: true })
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return Boolean(value);
+  })
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;

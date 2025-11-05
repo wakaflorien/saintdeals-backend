@@ -58,7 +58,36 @@ export class CategoryController {
     description: 'Internal server error',
   })
   @ApiConsumes('multipart/form-data')
-  @ApiBody({ type: CreateCategoryDto })
+  @ApiBody({
+    description: 'Category creation with optional image upload',
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          example: 'Electronics',
+        },
+        slug: {
+          type: 'string',
+          example: 'electronics',
+        },
+        description: {
+          type: 'string',
+          example: 'Devices and gadgets',
+        },
+        isActive: {
+          type: 'boolean',
+          example: true,
+        },
+        imageUrl: {
+          type: 'string',
+          format: 'binary',
+          description: 'Category image file',
+        },
+      },
+      required: ['name'],
+    },
+  })
   @UseInterceptors(FileInterceptor('imageUrl'))
   async create(
     @Body() createCategoryDto: CreateCategoryDto,
@@ -111,7 +140,35 @@ export class CategoryController {
     description: 'Category updated successfully',
   })
   @ApiConsumes('multipart/form-data')
-  @ApiBody({ type: UpdateCategoryDto })
+  @ApiBody({
+    description: 'Category update with optional image upload',
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          example: 'Electronics',
+        },
+        slug: {
+          type: 'string',
+          example: 'electronics',
+        },
+        description: {
+          type: 'string',
+          example: 'Devices and gadgets',
+        },
+        isActive: {
+          type: 'boolean',
+          example: true,
+        },
+        imageUrl: {
+          type: 'string',
+          format: 'binary',
+          description: 'Category image file (optional - add or update image)',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('imageUrl'))
   async update(
     @Param('id') id: string,
