@@ -18,7 +18,7 @@ export class UsersService {
   constructor(
     // private encryptionService: EncryptionService
     private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const existingUser = await this.prisma.user.findUnique({
@@ -79,7 +79,7 @@ export class UsersService {
       },
     });
 
-    return { message: "All Users Retrived Well", data:users };
+    return { message: 'All Users Retrived Well', data: users };
   }
 
   async findOne(id: number) {

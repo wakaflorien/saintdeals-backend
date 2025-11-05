@@ -48,7 +48,7 @@ export class CloudinaryService {
    * @param publicId The public ID of the image
    * @returns Promise with the deletion result
    */
-  async deleteImage(publicId: string){
+  async deleteImage(publicId: string) {
     try {
       return await cloudinary.uploader.destroy(publicId);
     } catch (error) {
