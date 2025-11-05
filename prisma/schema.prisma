@@ -86,7 +86,7 @@ model Brand {
   @@index([uuid])
 }
 
-// --- NEW MODEL: For standardized size management (e.g., US, EU, UK) ---
+// size management (e.g., US, EU, UK) ---
 model Size {
   id          Int        @id @default(autoincrement())
   uuid        String     @unique @default(uuid())
@@ -222,8 +222,6 @@ model Product {
 enum Gender {
   MEN
   WOMEN
-  UNISEX
-  KIDS
 }
 
 model ProductVariant {
