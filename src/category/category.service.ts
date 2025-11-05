@@ -6,9 +6,9 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { QueryCategoryDto } from './dto/query-category.dto';
-import { CloudinaryService } from 'src/common/cloudinary.service';
-import { ErrorHandlerService } from 'src/common/error-handler.service';
 import { PrismaClient } from '@prisma/client';
+import { CloudinaryService } from '../common/cloudinary.service';
+import { ErrorHandlerService } from '../common/error-handler.service';
 
 @Injectable()
 export class CategoryService {
@@ -173,7 +173,6 @@ export class CategoryService {
         updateFields.isActive = Boolean(updateData.isActive);
       }
 
-      // Handle image upload only if a file is provided
       if (imageFile) {
         try {
           const imageUrl = await this.cloudinaryService.uploadImage(imageFile);
@@ -186,7 +185,6 @@ export class CategoryService {
         }
       }
 
-      // Only update if there are fields to update
       if (Object.keys(updateFields).length === 0) {
         throw new BadRequestException('No valid fields provided for update');
       }

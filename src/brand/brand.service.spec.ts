@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoryService } from './category.service';
+import { BrandService } from './brand.service';
 import { CloudinaryService } from '../common/cloudinary.service';
 import { ErrorHandlerService } from '../common/error-handler.service';
 
-describe('CategoryService', () => {
-  let service: CategoryService;
+describe('BrandService', () => {
+  let service: BrandService;
 
   const mockCloudinaryService = {
     uploadImage: jest.fn(),
@@ -17,7 +17,7 @@ describe('CategoryService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CategoryService,
+        BrandService,
         {
           provide: CloudinaryService,
           useValue: mockCloudinaryService,
@@ -29,7 +29,7 @@ describe('CategoryService', () => {
       ],
     }).compile();
 
-    service = module.get<CategoryService>(CategoryService);
+    service = module.get<BrandService>(BrandService);
   });
 
   it('should be defined', () => {
