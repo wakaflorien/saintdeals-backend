@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { EncryptionService } from './encryption.service';
 import { CloudinaryService } from './cloudinary.service';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Module({
-  providers: [EncryptionService, CloudinaryService],
-  exports: [EncryptionService, CloudinaryService],
+  providers: [EncryptionService, CloudinaryService, ErrorHandlerService],
+  exports: [EncryptionService, CloudinaryService, ErrorHandlerService],
 })
 export class CommonModule {}
 
