@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { CloudinaryService } from 'src/common/cloudinary.service';
-import { ErrorHandlerService } from 'src/common/error-handler.service';
+import { CloudinaryService } from '../common/cloudinary.service';
+import { ErrorHandlerService } from '../common/error-handler.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { QueryBrandDto } from './dto/query-brand.dto';
 
