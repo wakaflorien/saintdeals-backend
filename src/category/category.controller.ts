@@ -31,7 +31,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@ApiTags('category')
+@ApiTags('Category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -79,13 +79,13 @@ export class CategoryController {
           type: 'boolean',
           example: true,
         },
-        imageUrl: {
+        imageFile: {
           type: 'string',
           format: 'binary',
           description: 'Category image file',
         },
       },
-      required: ['name'],
+      required: ['name', 'slug'],
     },
   })
   @UseInterceptors(FileInterceptor('imageUrl'))
@@ -161,7 +161,7 @@ export class CategoryController {
           type: 'boolean',
           example: true,
         },
-        imageUrl: {
+        imageFile: {
           type: 'string',
           format: 'binary',
           description: 'Category image file (optional - add or update image)',
@@ -179,6 +179,9 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  @ApiBearerAuth()
   @ApiParam({ name: 'id', type: Number, description: 'Category ID' })
   @ApiOperation({ summary: 'Delete category by ID' })
   @ApiResponse({

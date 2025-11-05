@@ -173,7 +173,6 @@ export class CategoryService {
         updateFields.isActive = Boolean(updateData.isActive);
       }
 
-      // Handle image upload only if a file is provided
       if (imageFile) {
         try {
           const imageUrl = await this.cloudinaryService.uploadImage(imageFile);
@@ -186,7 +185,6 @@ export class CategoryService {
         }
       }
 
-      // Only update if there are fields to update
       if (Object.keys(updateFields).length === 0) {
         throw new BadRequestException('No valid fields provided for update');
       }

@@ -1,23 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IsOptional, IsString } from 'class-validator';
 
-export class CreateCategoryDto {
-  @ApiProperty({ example: 'Electronics' })
+export class CreateBrandDto {
+  @ApiProperty({ example: 'BrandName' })
   @IsString()
   name: string;
 
-  @ApiProperty({ example: 'electronics' })
+  @ApiProperty({ example: 'brand-name' })
   @IsString()
   slug: string;
 
-  @ApiProperty({ example: 'Devices and gadgets', required: false })
+  @ApiProperty({ example: 'Brand description' })
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @ApiProperty({
-    description: 'Whether the category is active',
+    description: 'Whether the brand is active',
     example: true,
     required: false,
   })
@@ -26,7 +26,7 @@ export class CreateCategoryDto {
     if (value === 'false') return false;
     return Boolean(value);
   })
-  @IsBoolean()
   @IsOptional()
-  isActive?: boolean;
+  @IsOptional()
+  isActive: boolean;
 }
