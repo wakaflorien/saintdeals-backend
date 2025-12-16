@@ -22,7 +22,9 @@
     "deploy": "npx prisma migrate deploy",
     "studio": "npx prisma studio",
     "generate": "npx prisma generate",
-    "reset": "npx prisma reset"
+    "reset": "npx prisma reset",
+    "seed": "ts-node prisma/seed.ts",
+    "db:seed": "npx prisma db seed"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -75,6 +77,9 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "jest": {
     "moduleFileExtensions": [

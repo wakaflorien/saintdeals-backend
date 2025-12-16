@@ -1,4 +1,4 @@
-import { ShoeSize } from "@prisma/client";
+import { ShoeSize } from '@prisma/client';
 
 export class SizeHelper {
   static getSystemFromSizeValue(sizeValue: ShoeSize): string {

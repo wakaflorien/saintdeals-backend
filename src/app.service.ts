@@ -9,7 +9,7 @@ export class AppService {
     timestamp: string;
   } {
     return {
-      author: 'John Muhoza && Waka Florian',
+      author: 'John Muhoza && Waka Florien',
       message: 'Saintdeals System API!',
       version: '1.0.0',
       timestamp: new Date().toISOString(),
