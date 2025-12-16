@@ -1,4 +1,4 @@
-w# Product Image Upload Guide
+# Product Image Upload Guide
 
 ## Overview
 
