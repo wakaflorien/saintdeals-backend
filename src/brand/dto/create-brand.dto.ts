@@ -13,7 +13,6 @@ export class CreateBrandDto {
 
   @ApiProperty({ example: 'Brand description' })
   @IsString()
-  @IsOptional()
   description: string;
 
   @ApiProperty({
@@ -26,7 +25,6 @@ export class CreateBrandDto {
     if (value === 'false') return false;
     return Boolean(value);
   })
-  @IsOptional()
   @IsOptional()
   isActive: boolean;
 }

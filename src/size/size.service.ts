@@ -12,72 +12,68 @@ import { SizeHelper } from './size.helper';
 export class SizeService {
   constructor(private prisma: PrismaService) {}
 
-async create(createSizeDto: CreateSizeDto ) {
-  // const sizes = Array.isArray(createSizeDto) ? createSizeDto : [createSizeDto];
+  async create(createSizeDto: CreateSizeDto) {
+    // const sizes = Array.isArray(createSizeDto) ? createSizeDto : [createSizeDto];
 
-  // // 1️ Validate duplicates in input
-  // const sizeValues = sizes.map((s) => s.sizeValue);
-  // const duplicates = [...new Set(sizeValues.filter((v, i, arr) => arr.indexOf(v) !== i))];
-  // if (duplicates.length > 0) {
-  //   throw new ConflictException(`Duplicate sizes in request: ${duplicates.join(', ')}`);
-  // }
+    // // 1️ Validate duplicates in input
+    // const sizeValues = sizes.map((s) => s.sizeValue);
+    // const duplicates = [...new Set(sizeValues.filter((v, i, arr) => arr.indexOf(v) !== i))];
+    // if (duplicates.length > 0) {
+    //   throw new ConflictException(`Duplicate sizes in request: ${duplicates.join(', ')}`);
+    // }
 
-  // // 2️ Check existing records in DB
-  // const existing = await this.prisma.size.findMany({
-  //   where: { sizeValue: { in: sizeValues } },
-  //   select: { sizeValue: true },
-  // });
+    // // 2️ Check existing records in DB
+    // const existing = await this.prisma.size.findMany({
+    //   where: { sizeValue: { in: sizeValues } },
+    //   select: { sizeValue: true },
+    // });
 
-  // if (existing.length > 0) {
-  //   const existingValues = existing.map((e) => e.sizeValue).join(', ');
-  //   throw new ConflictException(`Some sizes already exist: ${existingValues}`);
-  // }
+    // if (existing.length > 0) {
+    //   const existingValues = existing.map((e) => e.sizeValue).join(', ');
+    //   throw new ConflictException(`Some sizes already exist: ${existingValues}`);
+    // }
 
-  // // 3️ Prepare data with system derived
-  // const data = sizes.map((s) => ({
-  //   ...s,
-  //   system: SizeHelper.getSystemFromSizeValue(s.sizeValue),
-  // }));
+    // // 3️ Prepare data with system derived
+    // const data = sizes.map((s) => ({
+    //   ...s,
+    //   system: SizeHelper.getSystemFromSizeValue(s.sizeValue),
+    // }));
 
-  // // 4️ Create
-  // if (Array.isArray(createSizeDto)) {
-  //   const created = await this.prisma.size.createMany({ data });
-  //   return {
-  //     message: `${created.count} sizes created successfully`,
-  //     data: { count: created.count },
-  //   };
-  // }
+    // // 4️ Create
+    // if (Array.isArray(createSizeDto)) {
+    //   const created = await this.prisma.size.createMany({ data });
+    //   return {
+    //     message: `${created.count} sizes created successfully`,
+    //     data: { count: created.count },
+    //   };
+    // }
 
-  // const size = await this.prisma.size.create({ data: data[0] });
+    // const size = await this.prisma.size.create({ data: data[0] });
 
+    // check if size already exists
 
+    const existingSize = await this.prisma.size.findUnique({
+      where: { sizeValue: createSizeDto.sizeValue },
+    });
 
-// check if size already exists
+    if (existingSize) {
+      throw new ConflictException(
+        `Size ${createSizeDto.sizeValue} already exists`,
+      );
+    }
 
-const existingSize = await this.prisma.size.findUnique({
-    where: { sizeValue: createSizeDto.sizeValue },
-  });
+    const size = await this.prisma.size.create({
+      data: {
+        ...createSizeDto,
+        system: SizeHelper.getSystemFromSizeValue(createSizeDto.sizeValue),
+      },
+    });
 
-  if (existingSize) {
-    throw new ConflictException(
-      `Size ${createSizeDto.sizeValue} already exists`,
-    );
+    return {
+      message: 'Size created successfully',
+      data: size,
+    };
   }
-
-  const size = await this.prisma.size.create({
-    data: {
-      ...createSizeDto,
-      system: SizeHelper.getSystemFromSizeValue(createSizeDto.sizeValue),
-    },
-  });
-
-
-  return {
-    message: 'Size created successfully',
-    data: size,
-  };
-}
-
 
   async findAll(params?: {
     system?: string;
@@ -107,10 +103,7 @@ const existingSize = await this.prisma.size.findUnique({
         where,
         skip,
         take,
-        orderBy: [
-          { system: 'asc' },
-          { sizeValue: 'asc' },
-        ],
+        orderBy: [{ system: 'asc' }, { sizeValue: 'asc' }],
         // include: {
         //   _count: {
         //     select: { productVariants: true },
@@ -134,9 +127,9 @@ const existingSize = await this.prisma.size.findUnique({
   async findOne(identifier: string | number) {
     // Find by ID or sizeValue
     const isNumericId = !isNaN(Number(identifier));
-    
+
     const size = await this.prisma.size.findFirst({
-      where: isNumericId 
+      where: isNumericId
         ? { id: Number(identifier) }
         : { sizeValue: identifier as any },
       // include: {
@@ -191,10 +184,7 @@ const existingSize = await this.prisma.size.findUnique({
     if (updateSizeDto.sizeValue) {
       const conflictingSize = await this.prisma.size.findFirst({
         where: {
-          AND: [
-            { id: { not: id } },
-            { sizeValue: updateSizeDto.sizeValue },
-          ],
+          AND: [{ id: { not: id } }, { sizeValue: updateSizeDto.sizeValue }],
         },
       });
 
@@ -209,10 +199,10 @@ const existingSize = await this.prisma.size.findUnique({
       where: { id },
       data: {
         ...updateSizeDto,
-        system: updateSizeDto.sizeValue 
-          ? SizeHelper.getSystemFromSizeValue(updateSizeDto.sizeValue)  
+        system: updateSizeDto.sizeValue
+          ? SizeHelper.getSystemFromSizeValue(updateSizeDto.sizeValue)
           : existingSize.system,
-      }
+      },
     });
 
     return {

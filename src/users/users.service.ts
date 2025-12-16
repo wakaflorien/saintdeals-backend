@@ -135,7 +135,7 @@ export class UsersService {
       }
     }
 
-    let updateData = { ...updateUserDto };
+    const updateData = { ...updateUserDto };
     if (updateUserDto.password) {
       updateData.password = await bcrypt.hash(updateUserDto.password, 12);
     }

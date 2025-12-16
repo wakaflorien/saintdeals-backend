@@ -1,10 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNotEmpty,
-  IsEnum,
-  MaxLength,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsEnum, MaxLength } from 'class-validator';
 import { ShoeSize } from '@prisma/client';
 
 export class CreateSizeDto {
@@ -13,7 +8,9 @@ export class CreateSizeDto {
     enum: ShoeSize,
     description: 'Shoe size value (e.g., EU_41, US_8, UK_7)',
   })
-  @IsEnum(ShoeSize, { message: 'sizeValue must be a valid ShoeSize enum value' })
+  @IsEnum(ShoeSize, {
+    message: 'sizeValue must be a valid ShoeSize enum value',
+  })
   @IsNotEmpty()
   sizeValue: ShoeSize;
 

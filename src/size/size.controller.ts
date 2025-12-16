@@ -8,7 +8,13 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiQuery,
+  ApiBearerAuth,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { SizeService } from './size.service';
 import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
@@ -17,7 +23,7 @@ import { UpdateSizeDto } from './dto/update-size.dto';
 @ApiBearerAuth()
 @Controller('sizes')
 export class SizeController {
-  constructor(private readonly sizesService: SizeService) { }
+  constructor(private readonly sizesService: SizeService) {}
 
   @Post()
   @ApiOperation({
@@ -25,11 +31,13 @@ export class SizeController {
     description: 'Accepts single size object or an array of sizes',
   })
   @ApiResponse({ status: 201, description: 'Sizes created successfully' })
-  @ApiResponse({ status: 409, description: 'Duplicate or existing sizes found' })
+  @ApiResponse({
+    status: 409,
+    description: 'Duplicate or existing sizes found',
+  })
   create(@Body() createSizeDto: CreateSizeDto) {
     return this.sizesService.create(createSizeDto);
   }
-
 
   @Get()
   @ApiOperation({ summary: 'Get all sizes with optional filters' })
@@ -71,10 +79,7 @@ export class SizeController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a size by ID' })
-  update(
-    @Param('id') id: number,
-    @Body() updateSizeDto: UpdateSizeDto,
-  ) {
+  update(@Param('id') id: number, @Body() updateSizeDto: UpdateSizeDto) {
     return this.sizesService.update(+id, updateSizeDto);
   }
 
