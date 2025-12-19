@@ -4,8 +4,9 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
+}
 
-  datasource db {
+datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
@@ -230,7 +231,7 @@ model ProductVariant {
   productId Int
   sku       String @unique
 
-  // CRITICAL CHANGE: Use relation to Size model instead of raw String
+ 
   sizeId   Int
   color    String? // e.g., "Black", "Royal Blue"
   colorHex String? // e.g., "#000000"
@@ -243,11 +244,11 @@ model ProductVariant {
 
   // Relations
   product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
-  size       Size        @relation(fields: [sizeId], references: [id]) // New relation
+  size       Size        @relation(fields: [sizeId], references: [id]) 
   cartItems  CartItem[]
   orderItems OrderItem[]
 
-  @@unique([productId, sizeId, color]) // Ensure a product doesn't have duplicate size/color variants
+  @@unique([productId, sizeId, color]) 
   @@index([productId])
   @@index([sizeId])
   @@index([sku])
